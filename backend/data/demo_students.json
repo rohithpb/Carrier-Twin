@@ -1,0 +1,1347 @@
+[
+  {
+    "id": "student001",
+    "name": "Arjun Nair",
+    "email": "arjun.nair@jecc.ac.in",
+    "department": "Computer Science",
+    "batch": "2023-2027",
+    "current_year": 2,
+    "current_semester": 4,
+    "cgpa": 8.45,
+    "target_industry": "Data & Analytics",
+    "target_role": "Data Analyst",
+    "skills": [
+      "Python",
+      "SQL",
+      "Excel",
+      "Power BI"
+    ],
+    "skill_levels": {
+      "Python": 80,
+      "SQL": 65,
+      "Excel": 90,
+      "Power BI": 30
+    },
+    "activities": [
+      {
+        "id": "act_01",
+        "title": "Python for Data Science (NPTEL)",
+        "type": "MOOC",
+        "score": 85,
+        "date": "2024-03-15"
+      },
+      {
+        "id": "act_02",
+        "title": "SQL Database Optimization Workshop",
+        "type": "WORKSHOP",
+        "score": 75,
+        "date": "2024-06-10"
+      }
+    ],
+    "career_readiness": 68,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "Power BI",
+      "Data Visualization"
+    ],
+    "username": "23CS001",
+    "admission_no": "23CS001",
+    "temp_password": "S@nTE2DV@",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student002",
+    "name": "Meera Krishnan",
+    "email": "meera.k@gect.ac.in",
+    "department": "Information Technology",
+    "batch": "2022-2026",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 8.9,
+    "target_industry": "Cloud Computing",
+    "target_role": "Cloud Engineer",
+    "skills": [
+      "Linux",
+      "Python",
+      "AWS",
+      "Docker"
+    ],
+    "skill_levels": {
+      "Linux": 85,
+      "Python": 70,
+      "AWS": 45,
+      "Docker": 40
+    },
+    "activities": [
+      {
+        "id": "act_03",
+        "title": "Linux Systems Administration",
+        "type": "CERTIFICATION",
+        "score": 90,
+        "date": "2024-01-20"
+      },
+      {
+        "id": "act_04",
+        "title": "AWS Fundamentals MOOC",
+        "type": "MOOC",
+        "score": 78,
+        "date": "2024-04-12"
+      }
+    ],
+    "career_readiness": 72,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "AWS Advanced",
+      "Kubernetes"
+    ],
+    "username": "22IT002",
+    "admission_no": "22IT002",
+    "temp_password": "S@UCBeCG$",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student003",
+    "name": "Rahul Menon",
+    "email": "rahul.m@mace.ac.in",
+    "department": "BCA",
+    "batch": "2024-2027",
+    "current_year": 1,
+    "current_semester": 2,
+    "cgpa": 6.8,
+    "target_industry": "Software Engineering",
+    "target_role": "Full Stack Developer",
+    "skills": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "skill_levels": {
+      "HTML": 60,
+      "CSS": 50,
+      "JavaScript": 20
+    },
+    "activities": [],
+    "career_readiness": 35,
+    "status": "Needs Development",
+    "skill_gap": [
+      "React",
+      "Node.js",
+      "MongoDB",
+      "Data Structures"
+    ],
+    "username": "24BCA003",
+    "admission_no": "24BCA003",
+    "temp_password": "S@SWNvmo*",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student004",
+    "name": "Ananya Varma",
+    "email": "ananya.v@jecc.ac.in",
+    "department": "Computer Science",
+    "batch": "2021-2025",
+    "current_year": 4,
+    "current_semester": 8,
+    "cgpa": 9.4,
+    "target_industry": "Artificial Intelligence",
+    "target_role": "Machine Learning Engineer",
+    "skills": [
+      "Python",
+      "TensorFlow",
+      "PyTorch",
+      "SQL",
+      "Scikit-Learn",
+      "Docker"
+    ],
+    "skill_levels": {
+      "Python": 95,
+      "TensorFlow": 85,
+      "PyTorch": 80,
+      "SQL": 85,
+      "Scikit-Learn": 90,
+      "Docker": 75
+    },
+    "activities": [
+      {
+        "id": "act_05",
+        "title": "AI Research Internship at CyberTech",
+        "type": "INTERNSHIP",
+        "score": 95,
+        "date": "2024-07-01"
+      },
+      {
+        "id": "act_06",
+        "title": "National Hackathon Winner - AI Track",
+        "type": "HACKATHON",
+        "score": 98,
+        "date": "2024-05-18"
+      }
+    ],
+    "career_readiness": 92,
+    "status": "Job Ready",
+    "skill_gap": [
+      "MLOps Pipeline Deployment"
+    ],
+    "username": "21CS004",
+    "admission_no": "21CS004",
+    "temp_password": "S@NFzmUR!",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student005",
+    "name": "Devika S",
+    "email": "devika.s@gect.ac.in",
+    "department": "Electronics",
+    "batch": "2022-2026",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 7.5,
+    "target_industry": "Cybersecurity",
+    "target_role": "Cybersecurity Analyst",
+    "skills": [
+      "Networking",
+      "Linux",
+      "Python",
+      "Ethical Hacking"
+    ],
+    "skill_levels": {
+      "Networking": 75,
+      "Linux": 70,
+      "Python": 55,
+      "Ethical Hacking": 40
+    },
+    "activities": [
+      {
+        "id": "act_07",
+        "title": "Network Security Bootcamp",
+        "type": "WORKSHOP",
+        "score": 80,
+        "date": "2024-02-14"
+      }
+    ],
+    "career_readiness": 58,
+    "status": "Developing",
+    "skill_gap": [
+      "SIEM Tools",
+      "Wireshark",
+      "Penetration Testing"
+    ],
+    "username": "22ECE005",
+    "admission_no": "22ECE005",
+    "temp_password": "S@bKeEzN*",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student006",
+    "name": "Siddharth Shenoy",
+    "email": "siddharth.s@jecc.ac.in",
+    "department": "Computer Science",
+    "batch": "2023-2027",
+    "current_year": 2,
+    "current_semester": 4,
+    "cgpa": 8.1,
+    "target_industry": "Software Engineering",
+    "target_role": "Backend Developer",
+    "skills": [
+      "Java",
+      "Spring Boot",
+      "SQL",
+      "Git"
+    ],
+    "skill_levels": {
+      "Java": 85,
+      "Spring Boot": 70,
+      "SQL": 75,
+      "Git": 80
+    },
+    "activities": [
+      {
+        "id": "act_08",
+        "title": "Java Enterprise Masterclass",
+        "type": "MOOC",
+        "score": 88,
+        "date": "2024-03-22"
+      }
+    ],
+    "career_readiness": 74,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "Microservices",
+      "Redis",
+      "Docker"
+    ],
+    "username": "23CS006",
+    "admission_no": "23CS006",
+    "temp_password": "S@mOzwaj%",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student007",
+    "name": "Kavya Rajesh",
+    "email": "kavya.r@mace.ac.in",
+    "department": "Information Technology",
+    "batch": "2024-2028",
+    "current_year": 1,
+    "current_semester": 2,
+    "cgpa": 7.8,
+    "target_industry": "Web Development",
+    "target_role": "Frontend Developer",
+    "skills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React"
+    ],
+    "skill_levels": {
+      "HTML": 85,
+      "CSS": 80,
+      "JavaScript": 65,
+      "React": 40
+    },
+    "activities": [
+      {
+        "id": "act_09",
+        "title": "Responsive Web Design Certification",
+        "type": "CERTIFICATION",
+        "score": 92,
+        "date": "2024-04-10"
+      }
+    ],
+    "career_readiness": 52,
+    "status": "Developing",
+    "skill_gap": [
+      "TypeScript",
+      "Tailwind CSS",
+      "Redux"
+    ],
+    "username": "24IT007",
+    "admission_no": "24IT007",
+    "temp_password": "S@Dqx7xa$",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student008",
+    "name": "Aditya Prabhu",
+    "email": "aditya.p@jecc.ac.in",
+    "department": "Computer Science",
+    "batch": "2021-2025",
+    "current_year": 4,
+    "current_semester": 8,
+    "cgpa": 8.75,
+    "target_industry": "DevOps",
+    "target_role": "DevOps Engineer",
+    "skills": [
+      "Linux",
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "AWS",
+      "Python"
+    ],
+    "skill_levels": {
+      "Linux": 90,
+      "Docker": 85,
+      "Kubernetes": 75,
+      "CI/CD": 80,
+      "AWS": 70,
+      "Python": 75
+    },
+    "activities": [
+      {
+        "id": "act_10",
+        "title": "Cloud Native DevOps Internship",
+        "type": "INTERNSHIP",
+        "score": 92,
+        "date": "2024-08-15"
+      }
+    ],
+    "career_readiness": 88,
+    "status": "Job Ready",
+    "skill_gap": [
+      "Terraform",
+      "Monitoring (Prometheus/Grafana)"
+    ],
+    "username": "21CS008",
+    "admission_no": "21CS008",
+    "temp_password": "S@uynxW9@",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student009",
+    "name": "Niharika Pillai",
+    "email": "niharika.p@gect.ac.in",
+    "department": "BCA",
+    "batch": "2023-2026",
+    "current_year": 2,
+    "current_semester": 4,
+    "cgpa": 6.4,
+    "target_industry": "Data & Analytics",
+    "target_role": "Data Analyst",
+    "skills": [
+      "Excel",
+      "SQL"
+    ],
+    "skill_levels": {
+      "Excel": 65,
+      "SQL": 30
+    },
+    "activities": [],
+    "career_readiness": 32,
+    "status": "Needs Development",
+    "skill_gap": [
+      "Python",
+      "Power BI",
+      "Tableau",
+      "Statistics"
+    ],
+    "username": "23BCA009",
+    "admission_no": "23BCA009",
+    "temp_password": "S@zAl3oz#",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student010",
+    "name": "Gautam V",
+    "email": "gautam.v@mace.ac.in",
+    "department": "Electronics",
+    "batch": "2022-2026",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 8.2,
+    "target_industry": "Embedded Systems & IoT",
+    "target_role": "Embedded Systems Engineer",
+    "skills": [
+      "C",
+      "C++",
+      "Microcontrollers",
+      "RTOS"
+    ],
+    "skill_levels": {
+      "C": 85,
+      "C++": 75,
+      "Microcontrollers": 80,
+      "RTOS": 50
+    },
+    "activities": [
+      {
+        "id": "act_11",
+        "title": "ARM Architecture Workshop",
+        "type": "WORKSHOP",
+        "score": 86,
+        "date": "2024-02-28"
+      }
+    ],
+    "career_readiness": 70,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "Embedded Linux",
+      "IoT Protocols (MQTT/CoAP)"
+    ],
+    "username": "22ECE010",
+    "admission_no": "22ECE010",
+    "temp_password": "S@EzlBSW*",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student011",
+    "name": "Pooja Suresh",
+    "email": "pooja.s@jecc.ac.in",
+    "department": "Computer Science",
+    "batch": "2022-2026",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 8.6,
+    "target_industry": "Artificial Intelligence",
+    "target_role": "Data Scientist",
+    "skills": [
+      "Python",
+      "R",
+      "SQL",
+      "Statistics",
+      "Machine Learning"
+    ],
+    "skill_levels": {
+      "Python": 90,
+      "R": 65,
+      "SQL": 80,
+      "Statistics": 85,
+      "Machine Learning": 75
+    },
+    "activities": [
+      {
+        "id": "act_12",
+        "title": "Applied Machine Learning MOOC",
+        "type": "MOOC",
+        "score": 91,
+        "date": "2024-05-10"
+      }
+    ],
+    "career_readiness": 81,
+    "status": "Job Ready",
+    "skill_gap": [
+      "Deep Learning",
+      "NLP"
+    ],
+    "username": "22CS011",
+    "admission_no": "22CS011",
+    "temp_password": "S@QLfPkd$",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student012",
+    "name": "Vishnu Kant",
+    "email": "vishnu.k@gect.ac.in",
+    "department": "Information Technology",
+    "batch": "2023-2027",
+    "current_year": 2,
+    "current_semester": 4,
+    "cgpa": 7.1,
+    "target_industry": "Software Engineering",
+    "target_role": "Full Stack Developer",
+    "skills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Node.js"
+    ],
+    "skill_levels": {
+      "HTML": 80,
+      "CSS": 70,
+      "JavaScript": 60,
+      "Node.js": 45
+    },
+    "activities": [],
+    "career_readiness": 48,
+    "status": "Developing",
+    "skill_gap": [
+      "React",
+      "Express.js",
+      "MongoDB",
+      "SQL"
+    ],
+    "username": "23IT012",
+    "admission_no": "23IT012",
+    "temp_password": "S@HhkVlW%",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student013",
+    "name": "Rhea Ananth",
+    "email": "rhea.ananth@mace.ac.in",
+    "department": "Computer Science",
+    "batch": "2021-2025",
+    "current_year": 4,
+    "current_semester": 8,
+    "cgpa": 8.85,
+    "target_industry": "Software Engineering",
+    "target_role": "Full Stack Developer",
+    "skills": [
+      "React",
+      "Node.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Docker",
+      "AWS"
+    ],
+    "skill_levels": {
+      "React": 90,
+      "Node.js": 85,
+      "TypeScript": 80,
+      "PostgreSQL": 85,
+      "Docker": 70,
+      "AWS": 65
+    },
+    "activities": [
+      {
+        "id": "act_13",
+        "title": "Full Stack Web Developer Internship",
+        "type": "INTERNSHIP",
+        "score": 94,
+        "date": "2024-07-20"
+      }
+    ],
+    "career_readiness": 89,
+    "status": "Job Ready",
+    "skill_gap": [
+      "System Design"
+    ],
+    "username": "21CS013",
+    "admission_no": "21CS013",
+    "temp_password": "S@4WwgXd$",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student014",
+    "name": "Abhishek Nair",
+    "email": "abhishek.n@jecc.ac.in",
+    "department": "BCA",
+    "batch": "2022-2025",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 6.2,
+    "target_industry": "Software Engineering",
+    "target_role": "Frontend Developer",
+    "skills": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "skill_levels": {
+      "HTML": 70,
+      "CSS": 60,
+      "JavaScript": 35
+    },
+    "activities": [],
+    "career_readiness": 38,
+    "status": "Needs Development",
+    "skill_gap": [
+      "React",
+      "Vue.js",
+      "Git",
+      "API Integration"
+    ],
+    "username": "22BCA014",
+    "admission_no": "22BCA014",
+    "temp_password": "S@GIakqC$",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student015",
+    "name": "Sneha Mohan",
+    "email": "sneha.m@gect.ac.in",
+    "department": "Electronics",
+    "batch": "2023-2027",
+    "current_year": 2,
+    "current_semester": 4,
+    "cgpa": 7.9,
+    "target_industry": "Cloud Computing",
+    "target_role": "Cloud Engineer",
+    "skills": [
+      "Linux",
+      "Networking",
+      "Python",
+      "Azure"
+    ],
+    "skill_levels": {
+      "Linux": 75,
+      "Networking": 70,
+      "Python": 60,
+      "Azure": 40
+    },
+    "activities": [
+      {
+        "id": "act_14",
+        "title": "Azure Fundamentals Certification",
+        "type": "CERTIFICATION",
+        "score": 85,
+        "date": "2024-03-01"
+      }
+    ],
+    "career_readiness": 62,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "AWS",
+      "Terraform",
+      "Docker"
+    ],
+    "username": "23ECE015",
+    "admission_no": "23ECE015",
+    "temp_password": "S@AaD3Fp$",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student016",
+    "name": "Karthik Subramanian",
+    "email": "karthik.s@jecc.ac.in",
+    "department": "Computer Science",
+    "batch": "2022-2026",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 8.3,
+    "target_industry": "Cybersecurity",
+    "target_role": "Cybersecurity Analyst",
+    "skills": [
+      "Networking",
+      "Linux",
+      "Python",
+      "Wireshark",
+      "Cryptography"
+    ],
+    "skill_levels": {
+      "Networking": 85,
+      "Linux": 80,
+      "Python": 70,
+      "Wireshark": 75,
+      "Cryptography": 65
+    },
+    "activities": [
+      {
+        "id": "act_15",
+        "title": "Certified Ethical Hacker Prep",
+        "type": "MOOC",
+        "score": 87,
+        "date": "2024-04-18"
+      }
+    ],
+    "career_readiness": 76,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "Metasploit",
+      "SOC Operations"
+    ],
+    "username": "22CS016",
+    "admission_no": "22CS016",
+    "temp_password": "S@G9jJBT%",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student017",
+    "name": "Varun Gopal",
+    "email": "varun.g@mace.ac.in",
+    "department": "Information Technology",
+    "batch": "2021-2025",
+    "current_year": 4,
+    "current_semester": 8,
+    "cgpa": 8.65,
+    "target_industry": "Data & Analytics",
+    "target_role": "Data Analyst",
+    "skills": [
+      "Python",
+      "SQL",
+      "Tableau",
+      "Power BI",
+      "Statistics",
+      "Excel"
+    ],
+    "skill_levels": {
+      "Python": 85,
+      "SQL": 90,
+      "Tableau": 80,
+      "Power BI": 75,
+      "Statistics": 80,
+      "Excel": 90
+    },
+    "activities": [
+      {
+        "id": "act_16",
+        "title": "Business Intelligence Internship at MuSigma",
+        "type": "INTERNSHIP",
+        "score": 93,
+        "date": "2024-06-30"
+      }
+    ],
+    "career_readiness": 90,
+    "status": "Job Ready",
+    "skill_gap": [
+      "Advanced Data Storytelling"
+    ],
+    "username": "21IT017",
+    "admission_no": "21IT017",
+    "temp_password": "S@BPAeof!",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student018",
+    "name": "Nidhi Bhat",
+    "email": "nidhi.b@gect.ac.in",
+    "department": "Computer Science",
+    "batch": "2024-2028",
+    "current_year": 1,
+    "current_semester": 2,
+    "cgpa": 8.0,
+    "target_industry": "Software Engineering",
+    "target_role": "Backend Developer",
+    "skills": [
+      "C",
+      "C++",
+      "Python",
+      "SQL"
+    ],
+    "skill_levels": {
+      "C": 80,
+      "C++": 75,
+      "Python": 65,
+      "SQL": 40
+    },
+    "activities": [],
+    "career_readiness": 44,
+    "status": "Developing",
+    "skill_gap": [
+      "Django",
+      "FastAPI",
+      "Database Design"
+    ],
+    "username": "24CS018",
+    "admission_no": "24CS018",
+    "temp_password": "S@eaSzVx*",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student019",
+    "name": "Aravind Swamy",
+    "email": "aravind.s@jecc.ac.in",
+    "department": "BCA",
+    "batch": "2023-2026",
+    "current_year": 2,
+    "current_semester": 4,
+    "cgpa": 7.4,
+    "target_industry": "Software Engineering",
+    "target_role": "Frontend Developer",
+    "skills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Bootstrap"
+    ],
+    "skill_levels": {
+      "HTML": 85,
+      "CSS": 80,
+      "JavaScript": 55,
+      "Bootstrap": 70
+    },
+    "activities": [
+      {
+        "id": "act_17",
+        "title": "UI Design Principles Workshop",
+        "type": "WORKSHOP",
+        "score": 82,
+        "date": "2024-01-15"
+      }
+    ],
+    "career_readiness": 55,
+    "status": "Developing",
+    "skill_gap": [
+      "React",
+      "Vue.js",
+      "Git"
+    ],
+    "username": "23BCA019",
+    "admission_no": "23BCA019",
+    "temp_password": "S@8qwtb7@",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student020",
+    "name": "Harini V",
+    "email": "harini.v@mace.ac.in",
+    "department": "Information Technology",
+    "batch": "2022-2026",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 8.4,
+    "target_industry": "Artificial Intelligence",
+    "target_role": "Data Scientist",
+    "skills": [
+      "Python",
+      "SQL",
+      "Pandas",
+      "Scikit-Learn",
+      "Matplotlib"
+    ],
+    "skill_levels": {
+      "Python": 85,
+      "SQL": 80,
+      "Pandas": 85,
+      "Scikit-Learn": 70,
+      "Matplotlib": 75
+    },
+    "activities": [
+      {
+        "id": "act_18",
+        "title": "Data Analysis with Python Certification",
+        "type": "CERTIFICATION",
+        "score": 89,
+        "date": "2024-03-28"
+      }
+    ],
+    "career_readiness": 77,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "Deep Learning",
+      "Big Data (Spark)"
+    ],
+    "username": "22IT020",
+    "admission_no": "22IT020",
+    "temp_password": "S@BXYknV@",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student021",
+    "name": "Rohan Kamath",
+    "email": "rohan.k@jecc.ac.in",
+    "department": "Electronics",
+    "batch": "2021-2025",
+    "current_year": 4,
+    "current_semester": 8,
+    "cgpa": 7.2,
+    "target_industry": "Software Engineering",
+    "target_role": "Backend Developer",
+    "skills": [
+      "Python",
+      "Django",
+      "SQL",
+      "Git"
+    ],
+    "skill_levels": {
+      "Python": 75,
+      "Django": 65,
+      "SQL": 70,
+      "Git": 70
+    },
+    "activities": [],
+    "career_readiness": 65,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "PostgreSQL",
+      "Docker",
+      "REST API Best Practices"
+    ],
+    "username": "21ECE021",
+    "admission_no": "21ECE021",
+    "temp_password": "S@qUHwXQ#",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student022",
+    "name": "Lakshmi Narayanan",
+    "email": "lakshmi.n@gect.ac.in",
+    "department": "Computer Science",
+    "batch": "2023-2027",
+    "current_year": 2,
+    "current_semester": 4,
+    "cgpa": 9.1,
+    "target_industry": "Artificial Intelligence",
+    "target_role": "Machine Learning Engineer",
+    "skills": [
+      "Python",
+      "C++",
+      "Mathematics",
+      "Machine Learning",
+      "PyTorch"
+    ],
+    "skill_levels": {
+      "Python": 90,
+      "C++": 85,
+      "Mathematics": 95,
+      "Machine Learning": 70,
+      "PyTorch": 60
+    },
+    "activities": [
+      {
+        "id": "act_19",
+        "title": "Deep Learning Specialization MOOC",
+        "type": "MOOC",
+        "score": 96,
+        "date": "2024-05-30"
+      }
+    ],
+    "career_readiness": 79,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "TensorFlow",
+      "MLOps",
+      "Computer Vision"
+    ],
+    "username": "23CS022",
+    "admission_no": "23CS022",
+    "temp_password": "S@j0UTLK#",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student023",
+    "name": "Akhil Das",
+    "email": "akhil.d@mace.ac.in",
+    "department": "BCA",
+    "batch": "2024-2027",
+    "current_year": 1,
+    "current_semester": 2,
+    "cgpa": 6.9,
+    "target_industry": "Data & Analytics",
+    "target_role": "Data Analyst",
+    "skills": [
+      "Excel",
+      "SQL"
+    ],
+    "skill_levels": {
+      "Excel": 75,
+      "SQL": 40
+    },
+    "activities": [],
+    "career_readiness": 36,
+    "status": "Needs Development",
+    "skill_gap": [
+      "Python",
+      "Power BI",
+      "Statistics"
+    ],
+    "username": "24BCA023",
+    "admission_no": "24BCA023",
+    "temp_password": "S@vbgYiy*",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student024",
+    "name": "Bhavana Sharma",
+    "email": "bhavana.s@jecc.ac.in",
+    "department": "Information Technology",
+    "batch": "2022-2026",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 8.7,
+    "target_industry": "DevOps",
+    "target_role": "DevOps Engineer",
+    "skills": [
+      "Linux",
+      "Bash",
+      "Docker",
+      "Git",
+      "Jenkins"
+    ],
+    "skill_levels": {
+      "Linux": 85,
+      "Bash": 80,
+      "Docker": 75,
+      "Git": 85,
+      "Jenkins": 65
+    },
+    "activities": [
+      {
+        "id": "act_20",
+        "title": "Jenkins CI/CD Automation Workshop",
+        "type": "WORKSHOP",
+        "score": 88,
+        "date": "2024-02-20"
+      }
+    ],
+    "career_readiness": 78,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "Kubernetes",
+      "AWS",
+      "Ansible"
+    ],
+    "username": "22IT024",
+    "admission_no": "22IT024",
+    "temp_password": "S@mkyuCH%",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student025",
+    "name": "Chirag Hegde",
+    "email": "chirag.h@gect.ac.in",
+    "department": "Computer Science",
+    "batch": "2021-2025",
+    "current_year": 4,
+    "current_semester": 8,
+    "cgpa": 8.95,
+    "target_industry": "Cloud Computing",
+    "target_role": "Cloud Engineer",
+    "skills": [
+      "AWS",
+      "Terraform",
+      "Python",
+      "Linux",
+      "Docker",
+      "Kubernetes"
+    ],
+    "skill_levels": {
+      "AWS": 85,
+      "Terraform": 80,
+      "Python": 80,
+      "Linux": 90,
+      "Docker": 85,
+      "Kubernetes": 75
+    },
+    "activities": [
+      {
+        "id": "act_21",
+        "title": "AWS Certified Solutions Architect",
+        "type": "CERTIFICATION",
+        "score": 91,
+        "date": "2024-04-05"
+      }
+    ],
+    "career_readiness": 91,
+    "status": "Job Ready",
+    "skill_gap": [
+      "Multi-Cloud Architecture"
+    ],
+    "username": "21CS025",
+    "admission_no": "21CS025",
+    "temp_password": "S@Pz6R9B$",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student026",
+    "name": "Divya Pillai",
+    "email": "divya.p@mace.ac.in",
+    "department": "Electronics",
+    "batch": "2023-2027",
+    "current_year": 2,
+    "current_semester": 4,
+    "cgpa": 7.3,
+    "target_industry": "Web Development",
+    "target_role": "Frontend Developer",
+    "skills": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "skill_levels": {
+      "HTML": 80,
+      "CSS": 75,
+      "JavaScript": 50
+    },
+    "activities": [],
+    "career_readiness": 49,
+    "status": "Developing",
+    "skill_gap": [
+      "React",
+      "TypeScript",
+      "UI/UX Principles"
+    ],
+    "username": "23ECE026",
+    "admission_no": "23ECE026",
+    "temp_password": "S@PB335x*",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student027",
+    "name": "Eeshwar K",
+    "email": "eeshwar.k@jecc.ac.in",
+    "department": "Computer Science",
+    "batch": "2022-2026",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 8.5,
+    "target_industry": "Software Engineering",
+    "target_role": "Full Stack Developer",
+    "skills": [
+      "React",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "JavaScript"
+    ],
+    "skill_levels": {
+      "React": 80,
+      "Node.js": 75,
+      "Express.js": 75,
+      "MongoDB": 70,
+      "JavaScript": 85
+    },
+    "activities": [
+      {
+        "id": "act_22",
+        "title": "Full Stack MERN Bootcamp",
+        "type": "WORKSHOP",
+        "score": 87,
+        "date": "2024-03-11"
+      }
+    ],
+    "career_readiness": 80,
+    "status": "Job Ready",
+    "skill_gap": [
+      "Next.js",
+      "GraphQL",
+      "Docker"
+    ],
+    "username": "22CS027",
+    "admission_no": "22CS027",
+    "temp_password": "S@PpLGmu*",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student028",
+    "name": "Fathima Noor",
+    "email": "fathima.n@gect.ac.in",
+    "department": "Information Technology",
+    "batch": "2024-2028",
+    "current_year": 1,
+    "current_semester": 2,
+    "cgpa": 8.2,
+    "target_industry": "Cybersecurity",
+    "target_role": "Cybersecurity Analyst",
+    "skills": [
+      "Linux",
+      "Python",
+      "Networking Basics"
+    ],
+    "skill_levels": {
+      "Linux": 70,
+      "Python": 60,
+      "Networking Basics": 65
+    },
+    "activities": [],
+    "career_readiness": 42,
+    "status": "Developing",
+    "skill_gap": [
+      "Wireshark",
+      "Ethical Hacking",
+      "Cryptography"
+    ],
+    "username": "24IT028",
+    "admission_no": "24IT028",
+    "temp_password": "S@K9NULm@",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student029",
+    "name": "Girish M",
+    "email": "girish.m@jecc.ac.in",
+    "department": "BCA",
+    "batch": "2022-2025",
+    "current_year": 3,
+    "current_semester": 6,
+    "cgpa": 7.6,
+    "target_industry": "Software Engineering",
+    "target_role": "Backend Developer",
+    "skills": [
+      "PHP",
+      "MySQL",
+      "JavaScript",
+      "Python"
+    ],
+    "skill_levels": {
+      "PHP": 80,
+      "MySQL": 75,
+      "JavaScript": 60,
+      "Python": 50
+    },
+    "activities": [
+      {
+        "id": "act_23",
+        "title": "Web Backend Security Fundamentals",
+        "type": "MOOC",
+        "score": 81,
+        "date": "2024-02-05"
+      }
+    ],
+    "career_readiness": 64,
+    "status": "Nearly Ready",
+    "skill_gap": [
+      "Laravel",
+      "FastAPI",
+      "RESTful APIs"
+    ],
+    "username": "22BCA029",
+    "admission_no": "22BCA029",
+    "temp_password": "S@aAeKdJ!",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  },
+  {
+    "id": "student030",
+    "name": "Hrishikesh Sen",
+    "email": "hrishikesh.s@mace.ac.in",
+    "department": "Computer Science",
+    "batch": "2021-2025",
+    "current_year": 4,
+    "current_semester": 8,
+    "cgpa": 9.25,
+    "target_industry": "Artificial Intelligence",
+    "target_role": "Data Scientist",
+    "skills": [
+      "Python",
+      "R",
+      "SQL",
+      "Statistics",
+      "Machine Learning",
+      "Deep Learning",
+      "NLP"
+    ],
+    "skill_levels": {
+      "Python": 95,
+      "R": 80,
+      "SQL": 90,
+      "Statistics": 95,
+      "Machine Learning": 90,
+      "Deep Learning": 85,
+      "NLP": 80
+    },
+    "activities": [
+      {
+        "id": "act_24",
+        "title": "NLP Research Internship at AI Labs",
+        "type": "INTERNSHIP",
+        "score": 96,
+        "date": "2024-08-01"
+      },
+      {
+        "id": "act_25",
+        "title": "Kaggle Grandmaster Competition Winner",
+        "type": "HACKATHON",
+        "score": 99,
+        "date": "2024-06-15"
+      }
+    ],
+    "career_readiness": 96,
+    "status": "Job Ready",
+    "skill_gap": [
+      "ML Model Deployment at Scale"
+    ],
+    "username": "21CS030",
+    "admission_no": "21CS030",
+    "temp_password": "S@kfv1lz*",
+    "must_reset_password": true,
+    "role": "student",
+    "mustResetPassword": true
+  }
+]

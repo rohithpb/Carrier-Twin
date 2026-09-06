@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Colleges collection: readable publicly for login screen dropdown, write restricted to Admin SDK
+    match /colleges/{collegeId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
+    // Students collection: readable and updatable only by the authenticated owner
+    match /students/{studentId} {
+      allow read: if request.auth != null && request.auth.uid == studentId;
+      allow update: if request.auth != null 
+                    && request.auth.uid == studentId
+                    && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['passwordHash', 'admissionNo', 'collegeId']));
+      allow create, delete: if false;
+    }
+  }
+}

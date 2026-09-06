@@ -1,0 +1,13 @@
+{
+  "name": "career-twin-seed-script",
+  "version": "1.0.0",
+  "description": "Standalone Node.js Firebase Admin seed script for CareerTwin AI Advisor",
+  "main": "seed_database.js",
+  "scripts": {
+    "seed": "node seed_database.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "firebase-admin": "^12.7.0"
+  }
+}

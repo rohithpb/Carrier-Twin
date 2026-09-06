@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1017758929444",
+    "project_id": "twin-brain-advisor",
+    "storage_bucket": "twin-brain-advisor.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017758929444:android:942910975283c754f6feb1",
+        "android_client_info": {
+          "package_name": "com.example.digital_twin_advisor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017758929444-0l75nh1dko0gujeuu9csuatchdtpn83k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.digital_twin_advisor",
+            "certificate_hash": "eb33d58c9c97bd97fea91713f0489f54f050be99"
+          }
+        },
+        {
+          "client_id": "1017758929444-uhsjm5tov9eu3qostftajcduob9t8k8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMumD9arRaGpvH6As0nOCDZQJaWi2BV4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017758929444-uhsjm5tov9eu3qostftajcduob9t8k8v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

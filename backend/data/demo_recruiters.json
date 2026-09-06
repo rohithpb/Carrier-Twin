@@ -1,0 +1,138 @@
+[
+  {
+    "id": "recruiter001",
+    "name": "Ananya Sharma",
+    "email": "ananya.s@techcorp.com",
+    "username": "REC-TNP-001",
+    "temp_password": "R@ZKr6U9!",
+    "must_reset_password": true,
+    "role": "recruiter",
+    "company": "TechCorp Solutions",
+    "designation": "Senior Technical Recruiter",
+    "target_role": "Data Analyst",
+    "required_skills": [
+      "Python",
+      "SQL",
+      "Power BI"
+    ],
+    "min_match_score": 65,
+    "mustResetPassword": true
+  },
+  {
+    "id": "recruiter002",
+    "name": "Karthik Raja",
+    "email": "karthik.r@cloudscale.io",
+    "username": "REC-TNP-002",
+    "temp_password": "R@0dS4dZ*",
+    "must_reset_password": true,
+    "role": "recruiter",
+    "company": "CloudScale Systems",
+    "designation": "Lead Cloud Talent Specialist",
+    "target_role": "Cloud Engineer",
+    "required_skills": [
+      "AWS",
+      "Linux",
+      "Docker"
+    ],
+    "min_match_score": 70,
+    "mustResetPassword": true
+  },
+  {
+    "id": "recruiter003",
+    "name": "Vikram Sethi",
+    "email": "vikram.s@innovateai.labs",
+    "username": "REC-TNP-003",
+    "temp_password": "R@OyEwo5%",
+    "must_reset_password": true,
+    "role": "recruiter",
+    "company": "Innovate AI Labs",
+    "designation": "Engineering Hiring Manager",
+    "target_role": "Machine Learning Engineer",
+    "required_skills": [
+      "Python",
+      "TensorFlow",
+      "PyTorch",
+      "SQL"
+    ],
+    "min_match_score": 80,
+    "mustResetPassword": true
+  },
+  {
+    "id": "recruiter004",
+    "name": "Deepa Sundaram",
+    "email": "deepa.s@codekraft.tech",
+    "username": "REC-TNP-004",
+    "temp_password": "R@Tw2hZs%",
+    "must_reset_password": true,
+    "role": "recruiter",
+    "company": "CodeKraft Global",
+    "designation": "Head of Campus Hiring",
+    "target_role": "Full Stack Developer",
+    "required_skills": [
+      "React",
+      "Node.js",
+      "JavaScript",
+      "SQL"
+    ],
+    "min_match_score": 72,
+    "mustResetPassword": true
+  },
+  {
+    "id": "recruiter005",
+    "name": "Rohan Deshmukh",
+    "email": "rohan.d@cyberguard.sec",
+    "username": "REC-TNP-005",
+    "temp_password": "R@UxW2OE*",
+    "must_reset_password": true,
+    "role": "recruiter",
+    "company": "CyberGuard Security",
+    "designation": "Lead Security Recruiter",
+    "target_role": "Cybersecurity Analyst",
+    "required_skills": [
+      "Networking",
+      "Linux",
+      "Python",
+      "Wireshark"
+    ],
+    "min_match_score": 70,
+    "mustResetPassword": true
+  },
+  {
+    "id": "recruiter006",
+    "name": "Priya Nair",
+    "email": "priya.n@mobileapps.co",
+    "username": "REC-TNP-006",
+    "temp_password": "R@O70N3c*",
+    "must_reset_password": true,
+    "role": "recruiter",
+    "company": "MobilePro Digital",
+    "designation": "Mobile Hiring Lead",
+    "target_role": "Mobile App Developer",
+    "required_skills": [
+      "Flutter",
+      "Dart",
+      "Firebase"
+    ],
+    "min_match_score": 65,
+    "mustResetPassword": true
+  },
+  {
+    "id": "recruiter007",
+    "name": "Arun Varma",
+    "email": "arun.v@devopsops.io",
+    "username": "REC-TNP-007",
+    "temp_password": "R@yWaC0X*",
+    "must_reset_password": true,
+    "role": "recruiter",
+    "company": "InfraScale DevOps",
+    "designation": "DevOps Talent Director",
+    "target_role": "DevOps Engineer",
+    "required_skills": [
+      "Docker",
+      "Linux",
+      "AWS"
+    ],
+    "min_match_score": 75,
+    "mustResetPassword": true
+  }
+]

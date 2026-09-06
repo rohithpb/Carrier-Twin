@@ -1,0 +1,107 @@
+[
+  {
+    "id": "mentor001",
+    "name": "Dr. Priya Nair",
+    "email": "priya.nair@jecc.ac.in",
+    "username": "FAC-CSE-0914",
+    "temp_password": "M@uNLrUk@",
+    "must_reset_password": true,
+    "role": "mentor",
+    "department": "Computer Science",
+    "designation": "Associate Professor & HOD",
+    "assigned_class": "CS 2023-2027 (Year 2)",
+    "assigned_student_ids": [
+      "student001",
+      "student004",
+      "student006",
+      "student011",
+      "student016",
+      "student022"
+    ],
+    "mustResetPassword": true
+  },
+  {
+    "id": "mentor002",
+    "name": "Prof. Rajesh Kumar",
+    "email": "rajesh.k@gect.ac.in",
+    "username": "FAC-IT-0412",
+    "temp_password": "M@3Pby9E$",
+    "must_reset_password": true,
+    "role": "mentor",
+    "department": "Information Technology",
+    "designation": "Assistant Professor",
+    "assigned_class": "IT 2022-2026 (Year 3)",
+    "assigned_student_ids": [
+      "student002",
+      "student007",
+      "student012",
+      "student017",
+      "student020",
+      "student024"
+    ],
+    "mustResetPassword": true
+  },
+  {
+    "id": "mentor003",
+    "name": "Dr. Manoj Pillai",
+    "email": "manoj.p@mace.ac.in",
+    "username": "FAC-BCA-0881",
+    "temp_password": "M@0kwCcl#",
+    "must_reset_password": true,
+    "role": "mentor",
+    "department": "BCA",
+    "designation": "Senior Lecturer",
+    "assigned_class": "BCA 2023-2026 (Year 2)",
+    "assigned_student_ids": [
+      "student003",
+      "student009",
+      "student014",
+      "student019",
+      "student023",
+      "student029"
+    ],
+    "mustResetPassword": true
+  },
+  {
+    "id": "mentor004",
+    "name": "Prof. Anitha Varghese",
+    "email": "anitha.v@jecc.ac.in",
+    "username": "FAC-ECE-0315",
+    "temp_password": "M@UEdBab$",
+    "must_reset_password": true,
+    "role": "mentor",
+    "department": "Electronics",
+    "designation": "Associate Professor",
+    "assigned_class": "ECE 2022-2026 (Year 3)",
+    "assigned_student_ids": [
+      "student005",
+      "student010",
+      "student015",
+      "student021",
+      "student026"
+    ],
+    "mustResetPassword": true
+  },
+  {
+    "id": "mentor005",
+    "name": "Dr. Suresh Menon",
+    "email": "suresh.m@gect.ac.in",
+    "username": "FAC-CSE-0101",
+    "temp_password": "M@6fCs7H$",
+    "must_reset_password": true,
+    "role": "mentor",
+    "department": "Computer Science",
+    "designation": "Professor & Placement Coordinator",
+    "assigned_class": "CS 2021-2025 (Year 4)",
+    "assigned_student_ids": [
+      "student008",
+      "student013",
+      "student018",
+      "student025",
+      "student027",
+      "student028",
+      "student030"
+    ],
+    "mustResetPassword": true
+  }
+]
