@@ -51,3 +51,16 @@ credentials_out.csv
 **/credentials_out.csv
 all_credentials.csv
 **/all_credentials.csv
+
+# Python venv & environment variables
+venv/
+**/venv/
+.env
+**/.env
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Local device properties
+**/android/local.properties
+

@@ -17,8 +17,11 @@ class ModelService:
         self.load_model()
 
     def load_model(self):
-        model_path_str = os.getenv("MODEL_PATH", str(DEFAULT_MODEL_PATH))
-        model_path = Path(model_path_str) if not os.path.isabs(model_path_str) else Path(model_path_str)
+        model_path_str = os.getenv("MODEL_PATH")
+        if model_path_str:
+            model_path = Path(model_path_str) if os.path.isabs(model_path_str) else (BASE_DIR / model_path_str)
+        else:
+            model_path = DEFAULT_MODEL_PATH
 
         if not model_path.exists():
             print(f"ML Model file not found at '{model_path}'. Running in Rule-Based Fallback Mode.")
