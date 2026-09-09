@@ -6,6 +6,7 @@ import 'theme/app_theme.dart';
 import 'providers/auth_provider.dart';
 import 'providers/student_provider.dart';
 import 'providers/skill_provider.dart';
+import 'providers/career_coach_provider.dart';
 import 'views/auth/login_screen.dart';
 
 /// Entry point of the Digital Twin Academic Advisor application.
@@ -27,6 +28,7 @@ class DigitalTwinAdvisorApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthStateProvider()),
         ChangeNotifierProvider(create: (_) => StudentProvider()),
         ChangeNotifierProvider(create: (_) => SkillProvider()),
+        ChangeNotifierProvider(create: (_) => CareerCoachProvider()),
       ],
       child: MaterialApp(
         title: 'digital_twin_advisor',

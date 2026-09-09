@@ -52,6 +52,17 @@ def test_all():
     assert res.status_code == 200
     print("Placement Analytics:", res.json())
 
+    print("\nTesting /api/chat (GenAI Career Coach)...")
+    res = client.post("/api/chat", json={
+        "student_id": first_id,
+        "message": "What should I focus on next to become job ready?"
+    })
+    assert res.status_code == 200
+    chat_data = res.json()
+    assert "response" in chat_data
+    assert chat_data["source"] in ["gemini", "rule_based_fallback"]
+    print(f"Chat Response received from source [{chat_data['source']}]: {chat_data['response'][:80]}...")
+
     print("\nALL BACKEND API TESTS PASSED SUCCESSFULLY!")
 
 if __name__ == "__main__":

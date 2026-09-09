@@ -171,4 +171,35 @@ class ApiService {
     }
     return [];
   }
+
+  /// Send chat message to GenAI Conversational Career Coach
+  Future<Map<String, dynamic>?> sendChatMessage({
+    required String studentId,
+    required String message,
+    List<Map<String, String>> chatHistory = const [],
+  }) async {
+    try {
+      final res = await http.post(
+        Uri.parse('$baseUrl/chat'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'student_id': studentId,
+          'message': message,
+          'chat_history': chatHistory.map((m) => {
+            'role': m['role'] ?? 'user',
+            'content': m['content'] ?? '',
+          }).toList(),
+        }),
+      ).timeout(const Duration(seconds: 15));
+      if (res.statusCode == 200) {
+        return jsonDecode(res.body);
+      } else {
+        debugPrint('ApiService sendChatMessage returned status: ${res.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('ApiService sendChatMessage error: $e');
+    }
+    return null;
+  }
 }
+
