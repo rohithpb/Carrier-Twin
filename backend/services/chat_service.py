@@ -1,8 +1,79 @@
 import os
 from typing import Dict, Any, List, Optional
+from google import genai
+from google.genai import types
+
 from services.firebase_service import db_service
 from services.readiness_service import readiness_service
 from schemas.chat import ChatMessage, ChatResponse
+
+def generate_career_coach_response(student_profile: dict, user_message: str, chat_history: list = None) -> str:
+    """
+    Generates a personalized career coaching response using the Gemini API 
+    by injecting the student's digital twin profile as context.
+    """
+    # Initialize the official Google GenAI client (picks up GEMINI_API_KEY from environment variables)
+    client = genai.Client()
+
+    # Extract digital twin metrics safely with fallbacks
+    name = student_profile.get("name", "Student")
+    cgpa = student_profile.get("cgpa", "N/A")
+    department = student_profile.get("department", "General")
+    skills = ", ".join(student_profile.get("skills", ["None listed"]))
+    readiness_score = student_profile.get("readiness_score", 0)
+    pillars = student_profile.get("pillars_breakdown", {})
+    missing_gaps = ", ".join(student_profile.get("missing_gaps", ["None identified"]))
+
+    # Construct the dynamic system prompt with context injection
+    system_instruction = (
+        f"You are CareerTwin Coach, an expert, empathetic, and highly analytical university career counselor. "
+        f"You are advising {name}, a student in the {department} department with a CGPA of {cgpa}. "
+        f"Their overall Career Readiness Score is {readiness_score}/100. "
+        f"Their current technical skills include: {skills}. "
+        f"Their identified skill gaps and missing requirements for target roles are: {missing_gaps}. "
+        f"Pillar breakdown scores: {pillars}. "
+        f"Guidelines: Always reference their specific data (CGPA, missing gaps, or skills) when answering. "
+        f"Keep your tone encouraging, direct, and actionable. Provide concrete next steps (such as specific projects, "
+        f"certifications, or internships) to help them bridge their exact gaps."
+    )
+
+    # Format historical chat contents for the Gemini API if provided
+    contents = []
+    if chat_history:
+        for msg in chat_history:
+            if isinstance(msg, dict):
+                role = "user" if msg.get("sender") == "user" or msg.get("role") == "user" else "model"
+                text = msg.get("text") or msg.get("content") or ""
+            else:
+                role = "model" if getattr(msg, "role", "") in ["model", "assistant"] else "user"
+                text = getattr(msg, "content", "")
+
+            if text:
+                contents.append(types.Content(
+                    role=role,
+                    parts=[types.Part.from_text(text=text)]
+                ))
+
+    # Append the current user message
+    contents.append(types.Content(
+        role="user",
+        parts=[types.Part.from_text(text=user_message)]
+    ))
+
+    # Call the Gemini model using the recommended gemini-2.5-flash model
+    model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    response = client.models.generate_content(
+        model=model_name,
+        contents=contents,
+        config=types.GenerateContentConfig(
+            system_instruction=system_instruction,
+            temperature=0.7,
+            max_output_tokens=800,
+        ),
+    )
+
+    return response.text
+
 
 class ChatService:
     def __init__(self):
@@ -49,90 +120,12 @@ class ChatService:
             "career_readiness_score": readiness_score,
             "readiness_category": readiness_category,
             "score_breakdown": score_breakdown,
-            "missing_skills": missing_skills
+            "missing_skills": missing_skills,
+            # Profile keys matching generate_career_coach_response
+            "readiness_score": readiness_score,
+            "pillars_breakdown": score_breakdown,
+            "missing_gaps": missing_skills
         }
-
-    def build_system_prompt(self, ctx: Dict[str, Any]) -> str:
-        """Construct an empathetic, expert career coaching system prompt with injected digital twin context."""
-        skills_str = ", ".join([f"{k} ({v}%)" for k, v in ctx["skill_levels"].items()]) if ctx["skill_levels"] else "None listed"
-        missing_str = ", ".join(ctx["missing_skills"]) if ctx["missing_skills"] else "None detected"
-        
-        breakdown = ctx.get("score_breakdown", {})
-        breakdown_str = (
-            f"Academic: {breakdown.get('academic_score', 0)}/20, "
-            f"Technical Skills: {breakdown.get('technical_skills_score', 0)}/30, "
-            f"MOOCs: {breakdown.get('moocs_score', 0)}/15, "
-            f"Projects: {breakdown.get('projects_score', 0)}/15, "
-            f"Internships: {breakdown.get('internships_score', 0)}/10, "
-            f"Workshops: {breakdown.get('workshops_score', 0)}/5, "
-            f"Placement Prep: {breakdown.get('placement_prep_score', 0)}/5"
-        )
-
-        return f"""You are the CareerTwin AI Career Coach — an expert, perceptive, empathetic, and pragmatic career advisor for university students.
-You have direct, real-time access to this student's Educational Digital Twin profile:
-
-=== STUDENT DIGITAL TWIN PROFILE ===
-- Name: {ctx['name']}
-- Department: {ctx['department']} (Year {ctx['current_year']}, Batch {ctx['batch']})
-- Current CGPA: {ctx['cgpa']}
-- Target Career Role: {ctx['target_role']} (Industry: {ctx['target_industry']})
-- Current Skills & Proficiency: {skills_str}
-- Missing Skill Gaps: {missing_str}
-- Career Readiness Score: {ctx['career_readiness_score']}/100 ({ctx['readiness_category']})
-- 7-Pillar Breakdown: {breakdown_str}
-- Completed Activities Recorded: {ctx['activities_count']}
-====================================
-
-COACHING GUIDELINES:
-1. Speak warmly, encouragingly, and authoritatively, like a dedicated campus mentor sitting across the table.
-2. Directly reference their specific profile metrics (their actual target role "{ctx['target_role']}", CGPA, top skills, and identified skill gaps like {missing_str}).
-3. When answering questions, provide structured, highly actionable steps (e.g. specific project architectures, certification topics, daily study routines, LeetCode/portfolio tips).
-4. If they ask about raising their readiness score, analyze their lowest pillars in the 7-pillar breakdown and give concrete recommendations to gain points.
-5. Format your response cleanly using markdown (bullet points, bold key terms). Keep answers focused, motivating, and easy to read.
-"""
-
-    def call_gemini(self, system_prompt: str, message: str, chat_history: List[ChatMessage]) -> Optional[str]:
-        """Invoke Google GenAI SDK if API key is configured."""
-        api_key = os.getenv("GEMINI_API_KEY", "").strip()
-        if not api_key:
-            return None
-
-        try:
-            from google import genai
-            from google.genai import types
-
-            client = genai.Client(api_key=api_key)
-
-            # Build multi-turn history contents
-            contents = []
-            for item in chat_history:
-                role = "model" if item.role in ["model", "assistant"] else "user"
-                contents.append(types.Content(
-                    role=role,
-                    parts=[types.Part.from_text(text=item.content)]
-                ))
-            
-            # Append latest user message
-            contents.append(types.Content(
-                role="user",
-                parts=[types.Part.from_text(text=message)]
-            ))
-
-            config = types.GenerateContentConfig(
-                system_instruction=system_prompt,
-                temperature=0.7,
-                max_output_tokens=1024,
-            )
-
-            response = client.models.generate_content(
-                model=self.model_name,
-                contents=contents,
-                config=config
-            )
-            return response.text
-        except Exception as e:
-            print(f"[ChatService] Gemini API call error: {e}. Switching to heuristic fallback.")
-            return None
 
     def generate_fallback_response(self, ctx: Dict[str, Any], message: str) -> str:
         """
@@ -148,7 +141,6 @@ COACHING GUIDELINES:
         category = ctx["readiness_category"]
         breakdown = ctx.get("score_breakdown", {})
 
-        # Low score pillar check
         low_pillars = []
         if breakdown.get("projects_score", 0) < 10:
             low_pillars.append("Hands-on Projects (currently at {:.1f}/15)".format(breakdown.get("projects_score", 0)))
@@ -204,9 +196,18 @@ COACHING GUIDELINES:
         """Main chat pipeline combining context injection, Gemini LLM, and fallback mode."""
         history = chat_history or []
         ctx = self.get_student_context(student_id)
-        system_prompt = self.build_system_prompt(ctx)
 
-        gemini_reply = self.call_gemini(system_prompt, message, history)
+        gemini_reply = None
+        # Attempt Gemini invocation if GEMINI_API_KEY is configured
+        if os.getenv("GEMINI_API_KEY", "").strip():
+            try:
+                gemini_reply = generate_career_coach_response(
+                    student_profile=ctx,
+                    user_message=message,
+                    chat_history=history
+                )
+            except Exception as e:
+                print(f"[ChatService] Gemini generation error: {e}. Switching to heuristic fallback.")
 
         if gemini_reply:
             reply_text = gemini_reply.strip()
