@@ -52,6 +52,23 @@ def test_all():
     assert res.status_code == 200
     print("Placement Analytics:", res.json())
 
+    print("\nTesting /api/advisor/chat and /api/chat (NVIDIA NIM Llama 3.3)...")
+    res1 = client.post("/api/advisor/chat", json={
+        "message": "Explain B-Trees in DBMS",
+        "student_id": "student001"
+    })
+    assert res1.status_code == 200, res1.text
+    assert "reply" in res1.json()
+    assert res1.json()["model"] == "meta/llama-3.3-70b-instruct"
+
+    res2 = client.post("/api/chat", json={
+        "message": "What is Dijkstra algorithm?",
+        "student_id": "student001"
+    })
+    assert res2.status_code == 200, res2.text
+    assert "reply" in res2.json()
+    print("Advisor Chat Endpoints Verified Successfully!")
+
     print("\nALL BACKEND API TESTS PASSED SUCCESSFULLY!")
 
 if __name__ == "__main__":

@@ -274,4 +274,43 @@ class ApiService {
     }
     return [];
   }
+
+  /// Send message to AI Advisor chatbot powered by NVIDIA NIM Llama 3.3
+  Future<String> sendAdvisorChat({
+    required String message,
+    String? studentId,
+    String? department,
+    int? semester,
+    String? targetRole,
+  }) async {
+    try {
+      final res = await http.post(
+        Uri.parse('$baseUrl/advisor/chat'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'message': message,
+          'student_id': studentId ?? 'student001',
+          'department': department,
+          'semester': semester,
+          'target_role': targetRole,
+        }),
+      ).timeout(const Duration(seconds: 40));
+
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        return data['reply'] ?? data['message'] ?? 'No response received.';
+      } else {
+        try {
+          final data = jsonDecode(res.body);
+          return data['detail'] ?? 'Backend error (${res.statusCode})';
+        } catch (_) {
+          return 'Backend error (${res.statusCode}): ${res.body}';
+        }
+      }
+    } catch (e) {
+      debugPrint('ApiService sendAdvisorChat error: $e');
+      return 'Error contacting CareerTwin backend advisor: $e';
+    }
+  }
 }
+
