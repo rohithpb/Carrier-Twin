@@ -172,34 +172,106 @@ class ApiService {
     return [];
   }
 
-  /// Send chat message to GenAI Conversational Career Coach
-  Future<Map<String, dynamic>?> sendChatMessage({
-    required String studentId,
-    required String message,
-    List<Map<String, String>> chatHistory = const [],
+  /// Get flashcards for student
+  Future<List<dynamic>> getFlashcards(
+    String studentId, {
+    bool dueOnly = false,
+    String? tag,
+  }) async {
+    try {
+      var urlStr = '$baseUrl/flashcards/$studentId?due_only=$dueOnly';
+      if (tag != null && tag.isNotEmpty && tag.toLowerCase() != 'all') {
+        urlStr += '&tag=${Uri.encodeComponent(tag)}';
+      }
+      final res = await http.get(Uri.parse(urlStr)).timeout(const Duration(seconds: 6));
+      if (res.statusCode == 200) {
+        return jsonDecode(res.body);
+      }
+    } catch (e) {
+      debugPrint('ApiService getFlashcards error: $e');
+    }
+    return [];
+  }
+
+  /// Submit spaced repetition review for a card
+  Future<Map<String, dynamic>?> reviewFlashcard(
+    String studentId, {
+    required String cardId,
+    required int rating,
+    required int responseTimeMs,
   }) async {
     try {
       final res = await http.post(
-        Uri.parse('$baseUrl/chat'),
+        Uri.parse('$baseUrl/flashcards/$studentId/review'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'student_id': studentId,
-          'message': message,
-          'chat_history': chatHistory.map((m) => {
-            'role': m['role'] ?? 'user',
-            'content': m['content'] ?? '',
-          }).toList(),
+          'flashcard_id': cardId,
+          'rating': rating,
+          'response_time_ms': responseTimeMs,
         }),
-      ).timeout(const Duration(seconds: 15));
+      ).timeout(const Duration(seconds: 6));
       if (res.statusCode == 200) {
         return jsonDecode(res.body);
-      } else {
-        debugPrint('ApiService sendChatMessage returned status: ${res.statusCode}');
       }
     } catch (e) {
-      debugPrint('ApiService sendChatMessage error: $e');
+      debugPrint('ApiService reviewFlashcard error: $e');
     }
     return null;
   }
-}
 
+  /// Generate topic-specific flashcards via LLM / knowledge engine
+  Future<List<dynamic>> generateFlashcards(
+    String studentId, {
+    required String topic,
+    String? notes,
+    int count = 5,
+  }) async {
+    try {
+      final res = await http.post(
+        Uri.parse('$baseUrl/flashcards/$studentId/generate'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'topic': topic,
+          'notes': notes,
+          'count': count,
+        }),
+      ).timeout(const Duration(seconds: 18));
+      if (res.statusCode == 200) {
+        return jsonDecode(res.body);
+      }
+    } catch (e) {
+      debugPrint('ApiService generateFlashcards error: $e');
+    }
+    return [];
+  }
+
+  /// Get flashcard retention and deck statistics
+  Future<Map<String, dynamic>?> getFlashcardStats(String studentId) async {
+    try {
+      final res = await http.get(
+        Uri.parse('$baseUrl/flashcards/$studentId/stats'),
+      ).timeout(const Duration(seconds: 6));
+      if (res.statusCode == 200) {
+        return jsonDecode(res.body);
+      }
+    } catch (e) {
+      debugPrint('ApiService getFlashcardStats error: $e');
+    }
+    return null;
+  }
+
+  /// Seed initial curriculum cards
+  Future<List<dynamic>> seedFlashcards(String studentId) async {
+    try {
+      final res = await http.post(
+        Uri.parse('$baseUrl/flashcards/$studentId/seed'),
+      ).timeout(const Duration(seconds: 6));
+      if (res.statusCode == 200) {
+        return jsonDecode(res.body);
+      }
+    } catch (e) {
+      debugPrint('ApiService seedFlashcards error: $e');
+    }
+    return [];
+  }
+}

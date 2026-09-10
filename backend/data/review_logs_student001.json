@@ -1,0 +1,17 @@
+[
+  {
+    "id": "log_495073794c",
+    "student_id": "student001",
+    "flashcard_id": "fc_seed_b81397",
+    "previous_interval": 1,
+    "new_interval": 1,
+    "ease_factor": 2.5,
+    "repetitions": 1,
+    "rating": 3,
+    "remembered": 1,
+    "response_time_ms": 2800,
+    "historical_accuracy": 0.75,
+    "predicted_recall_probability": 0.79,
+    "timestamp": "2026-09-10T05:30:41.132980+00:00"
+  }
+]

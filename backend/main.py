@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from services.model_service import model_service
-from routers import students, mentors, recruiters, opportunities, recommendations, analytics, chat
+from routers import students, mentors, recruiters, opportunities, recommendations, analytics, flashcards
 
 app = FastAPI(
     title="CareerTwin AI Digital Twin & Guidance Platform API",
@@ -47,7 +47,7 @@ app.include_router(recruiters.router)
 app.include_router(opportunities.router)
 app.include_router(recommendations.router)
 app.include_router(analytics.router)
-app.include_router(chat.router)
+app.include_router(flashcards.router)
 
 @app.get("/api/health", tags=["Health"])
 def health_check():
