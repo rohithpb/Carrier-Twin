@@ -9,6 +9,54 @@ class AiModelService {
   static List<String> openAiApiKeys = [];
   static List<String> openRouterApiKeys = [];
 
+  static bool get hasAnyKey =>
+      geminiApiKeys.isNotEmpty ||
+      groqApiKeys.isNotEmpty ||
+      openAiApiKeys.isNotEmpty ||
+      openRouterApiKeys.isNotEmpty;
+
+  static String get activeProviderName {
+    if (geminiApiKeys.isNotEmpty) return 'Gemini';
+    if (groqApiKeys.isNotEmpty) return 'Groq';
+    if (openAiApiKeys.isNotEmpty) return 'OpenAI';
+    if (openRouterApiKeys.isNotEmpty) return 'OpenRouter';
+    return 'None';
+  }
+
+  static String get primaryApiKey {
+    if (geminiApiKeys.isNotEmpty) return geminiApiKeys.first;
+    if (groqApiKeys.isNotEmpty) return groqApiKeys.first;
+    if (openAiApiKeys.isNotEmpty) return openAiApiKeys.first;
+    if (openRouterApiKeys.isNotEmpty) return openRouterApiKeys.first;
+    return '';
+  }
+
+  /// Auto-detect the AI provider from key prefix
+  static String detectProvider(String key) {
+    final clean = key.trim();
+    if (clean.startsWith('AIzaSy')) return 'Gemini';
+    if (clean.startsWith('gsk_')) return 'Groq';
+    if (clean.startsWith('sk-or-')) return 'OpenRouter';
+    if (clean.startsWith('sk-')) return 'OpenAI';
+    return 'Gemini';
+  }
+
+  /// Sets the primary key, replacing previous keys for a clean setup
+  static void setKey(String key, {String provider = 'auto'}) {
+    final cleanKey = key.trim();
+    if (cleanKey.isEmpty) return;
+    final resolvedProvider = provider == 'auto' ? detectProvider(cleanKey) : provider;
+    clearKeys();
+    addKey(resolvedProvider, cleanKey);
+  }
+
+  /// Clear all stored keys
+  static void clearKeys() {
+    geminiApiKeys.clear();
+    groqApiKeys.clear();
+    openAiApiKeys.clear();
+    openRouterApiKeys.clear();
+  }
 
   // Helper getters/setters for legacy single key calls
   static String get geminiApiKey => geminiApiKeys.isNotEmpty ? geminiApiKeys.first : "";
@@ -59,9 +107,29 @@ class AiModelService {
     }
   }
 
+  /// Test an API key with a fast ping
+  Future<String> testKey(String provider, String apiKey) async {
+    final clean = apiKey.trim();
+    if (clean.isEmpty) throw Exception('API key cannot be empty.');
+    switch (provider.toLowerCase()) {
+      case 'gemini':
+        return await _callGeminiWithKey('Say "API Key is valid!" in 5 words.', clean);
+      case 'groq':
+        return await _callGroqWithKey('Say "API Key is valid!" in 5 words.', clean);
+      case 'openai':
+        return await _callOpenAiWithKey('Say "API Key is valid!" in 5 words.', clean);
+      case 'openrouter':
+        return await _callOpenRouterWithKey('Say "API Key is valid!" in 5 words.', clean);
+      default:
+        throw Exception('Unknown provider: $provider');
+    }
+  }
+
   /// Generate AI response with key rotation failover:
-  /// Rotates through Gemini keys -> Groq keys -> OpenAI keys -> OpenRouter keys -> Smart Offline Fallback
+  /// Rotates through Gemini keys -> Groq keys -> OpenAI keys -> OpenRouter keys
   Future<String> generateResponse(String prompt) async {
+    String? lastError;
+
     // Tier 1: Gemini Keys Cascade
     for (int i = 0; i < geminiApiKeys.length; i++) {
       final key = geminiApiKeys[i].trim();
@@ -70,7 +138,8 @@ class AiModelService {
         final reply = await _callGeminiWithKey(prompt, key);
         return reply;
       } catch (e) {
-        print("Gemini Key #${i + 1} exhausted/failed: $e. Rotating to next key...");
+        lastError = 'Gemini error: $e';
+        print("Gemini Key #${i + 1} error: $e");
       }
     }
 
@@ -82,7 +151,8 @@ class AiModelService {
         final reply = await _callGroqWithKey(prompt, key);
         return reply;
       } catch (e) {
-        print("Groq Key #${i + 1} exhausted/failed: $e. Rotating to next key...");
+        lastError = 'Groq error: $e';
+        print("Groq Key #${i + 1} error: $e");
       }
     }
 
@@ -94,7 +164,8 @@ class AiModelService {
         final reply = await _callOpenAiWithKey(prompt, key);
         return reply;
       } catch (e) {
-        print("OpenAI Key #${i + 1} exhausted/failed: $e. Rotating to next key...");
+        lastError = 'OpenAI error: $e';
+        print("OpenAI Key #${i + 1} error: $e");
       }
     }
 
@@ -106,39 +177,68 @@ class AiModelService {
         final reply = await _callOpenRouterWithKey(prompt, key);
         return reply;
       } catch (e) {
-        print("OpenRouter Key #${i + 1} exhausted/failed: $e. Rotating...");
+        lastError = 'OpenRouter error: $e';
+        print("OpenRouter Key #${i + 1} error: $e");
       }
     }
 
-    // Smart Offline Rule-Based Fallback if all API keys are exhausted or offline
+    // If the user configured an API key and it failed, inform them of the real error!
+    if (hasAnyKey) {
+      throw Exception(lastError ?? 'API key call failed. Please verify your key.');
+    }
+
+    // Smart Offline Rule-Based Fallback if no keys were added
     return _generateSmartOfflineFallback(prompt);
   }
 
-  /// 1. Google Gemini Single Key API Call
+  /// 1. Google Gemini Single Key API Call (Supports multiple model endpoints)
   Future<String> _callGeminiWithKey(String prompt, String apiKey) async {
-    final url = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$apiKey',
-    );
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'contents': [
-          {
-            'parts': [
-              {'text': 'You are CareerTwin AI Advisor. Be encouraging, concise, and helpful for academic & placement queries.\nUser query: $prompt'}
-            ]
-          }
-        ]
-      }),
-    ).timeout(const Duration(seconds: 8));
+    final models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+    String? lastError;
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      final text = data['candidates']?[0]?['content']?['parts']?[0]?['text'];
-      if (text != null && text.isNotEmpty) return text;
+    for (final model in models) {
+      try {
+        final url = Uri.parse(
+          'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey',
+        );
+        final response = await http.post(
+          url,
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'contents': [
+              {
+                'parts': [
+                  {'text': prompt}
+                ]
+              }
+            ]
+          }),
+        ).timeout(const Duration(seconds: 15));
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          final text = data['candidates']?[0]?['content']?['parts']?[0]?['text'];
+          if (text != null && text.isNotEmpty) return text;
+        } else if (response.statusCode == 404) {
+          lastError = 'Model $model not found (404)';
+          continue;
+        } else {
+          try {
+            final jsonErr = jsonDecode(response.body);
+            final msg = jsonErr['error']?['message'] ?? response.body;
+            throw Exception('Gemini ($model): $msg');
+          } catch (pe) {
+            if (pe is Exception && pe.toString().contains('Gemini (')) rethrow;
+            throw Exception('Gemini HTTP ${response.statusCode}: ${response.body}');
+          }
+        }
+      } catch (e) {
+        lastError = e.toString();
+        if (e.toString().contains('404')) continue;
+        rethrow;
+      }
     }
-    throw Exception('Gemini HTTP ${response.statusCode}: ${response.body}');
+    throw Exception(lastError ?? 'Gemini API call failed.');
   }
 
   /// 2. Groq Cloud API Call
