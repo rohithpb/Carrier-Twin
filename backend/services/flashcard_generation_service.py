@@ -115,20 +115,16 @@ class FlashcardGenerationService:
         Generates Anki-style active recall cards for the given topic using LLM
         or intelligent curriculum mapping.
         """
-        nvidia_api_key = os.getenv("NVIDIA_API_KEY", "").strip()
+        from dotenv import load_dotenv
+        load_dotenv(override=False)
+
         openai_api_key = os.getenv("OPENAI_API_KEY", "").strip()
         gemini_api_key = os.getenv("GEMINI_API_KEY", "").strip()
+        nvidia_api_key = os.getenv("NVIDIA_API_KEY", "").strip()
+        if not openai_api_key and nvidia_api_key.startswith("sk-"):
+            openai_api_key = nvidia_api_key
 
-        # 1. Try NVIDIA NIM API if key is present
-        if nvidia_api_key:
-            try:
-                cards = await self._generate_with_nvidia(nvidia_api_key, topic, notes, count)
-                if cards:
-                    return cards
-            except Exception as e:
-                print(f"NVIDIA NIM generation error: {e}")
-
-        # 2. Try OpenAI API if key is present
+        # 1. Try OpenAI API if key is present
         if openai_api_key:
             try:
                 cards = await self._generate_with_openai(openai_api_key, topic, notes, count)
@@ -137,7 +133,7 @@ class FlashcardGenerationService:
             except Exception as e:
                 print(f"OpenAI generation error: {e}")
 
-        # 3. Try Gemini API if key is present
+        # 2. Try Gemini API if key is present (or failover from OpenAI)
         if gemini_api_key:
             try:
                 cards = await self._generate_with_gemini(gemini_api_key, topic, notes, count)
@@ -146,7 +142,27 @@ class FlashcardGenerationService:
             except Exception as e:
                 print(f"Gemini generation error: {e}")
 
-        # 4. Fallback Knowledge Engine
+        groq_api_key = os.getenv("GROQ_API_KEY", "").strip()
+
+        # 3. Try NVIDIA NIM API if key is present
+        if nvidia_api_key and not nvidia_api_key.startswith("sk-"):
+            try:
+                cards = await self._generate_with_nvidia(nvidia_api_key, topic, notes, count)
+                if cards:
+                    return cards
+            except Exception as e:
+                print(f"NVIDIA NIM generation error: {e}")
+
+        # 4. Try Groq API if key is present
+        if groq_api_key:
+            try:
+                cards = await self._generate_with_groq(groq_api_key, topic, notes, count)
+                if cards:
+                    return cards
+            except Exception as e:
+                print(f"Groq generation error: {e}")
+
+        # 5. Fallback Knowledge Engine
         return self._generate_from_curriculum(topic, notes, count)
 
     async def _generate_with_nvidia(
@@ -169,23 +185,82 @@ class FlashcardGenerationService:
             user_prompt += f"Course Materials/Notes:\n{notes[:1500]}\n"
         user_prompt += f"Generate exactly {count} flashcards as a JSON array."
 
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            res = await client.post(
-                url,
-                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-                json={
-                    "model": "meta/llama-3.1-70b-instruct",
-                    "messages": [
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt}
-                    ],
-                    "temperature": 0.4,
-                    "max_tokens": 1500
-                }
-            )
-            if res.status_code == 200:
-                content = res.json()["choices"][0]["message"]["content"]
-                return self._parse_json_cards(content, topic)
+        models = [
+            "nvidia/nemotron-3.5-lightning-30b-a3b",
+            "meta/llama-3.3-70b-instruct",
+            "meta/llama-3.1-70b-instruct"
+        ]
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            for model in models:
+                try:
+                    res = await client.post(
+                        url,
+                        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                        json={
+                            "model": model,
+                            "messages": [
+                                {"role": "system", "content": system_prompt},
+                                {"role": "user", "content": user_prompt}
+                            ],
+                            "temperature": 0.4,
+                            "max_tokens": 1500
+                        }
+                    )
+                    if res.status_code == 200:
+                        content = res.json()["choices"][0]["message"]["content"]
+                        cards = self._parse_json_cards(content, topic)
+                        if cards:
+                            return cards
+                except Exception as e:
+                    print(f"NVIDIA NIM ({model}) flashcard error: {e}")
+                    continue
+        return []
+
+    async def _generate_with_groq(
+        self,
+        api_key: str,
+        topic: str,
+        notes: Optional[str],
+        count: int
+    ) -> List[Dict[str, str]]:
+        url = "https://api.groq.com/openai/v1/chat/completions"
+        system_prompt = (
+            "You are an expert university professor creating high-retention Anki spaced repetition flashcards. "
+            "Output ONLY a JSON list of objects with keys 'front', 'back', and 'tag'. "
+            "'front' must be a concise, active-recall question testing a single concept. "
+            "'back' must be a clear, precise explanation with bullet points. "
+            "Do not include markdown fences outside the JSON."
+        )
+        user_prompt = f"Topic: {topic}\n"
+        if notes:
+            user_prompt += f"Course Materials/Notes:\n{notes[:1500]}\n"
+        user_prompt += f"Generate exactly {count} flashcards as a JSON array."
+
+        models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "qwen/qwen3.6-27b"]
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            for model in models:
+                try:
+                    res = await client.post(
+                        url,
+                        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                        json={
+                            "model": model,
+                            "messages": [
+                                {"role": "system", "content": system_prompt},
+                                {"role": "user", "content": user_prompt}
+                            ],
+                            "temperature": 0.4,
+                            "max_tokens": 1500
+                        }
+                    )
+                    if res.status_code == 200:
+                        content = res.json()["choices"][0]["message"]["content"]
+                        cards = self._parse_json_cards(content, topic)
+                        if cards:
+                            return cards
+                except Exception as e:
+                    print(f"Groq ({model}) flashcard error: {e}")
+                    continue
         return []
 
     async def _generate_with_openai(
@@ -230,24 +305,32 @@ class FlashcardGenerationService:
         notes: Optional[str],
         count: int
     ) -> List[Dict[str, str]]:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
         prompt = (
             f"Generate exactly {count} Anki flashcards for the computer science topic: '{topic}'. "
             f"Optional notes: {notes or 'None'}. "
             "Format your response as a valid JSON array of objects with keys: 'front', 'back', 'tag'."
         )
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            res = await client.post(
-                url,
-                headers={"Content-Type": "application/json"},
-                json={
-                    "contents": [{"parts": [{"text": prompt}]}],
-                    "generationConfig": {"temperature": 0.3}
-                }
-            )
-            if res.status_code == 200:
-                text = res.json()["candidates"][0]["content"]["parts"][0]["text"]
-                return self._parse_json_cards(text, topic)
+        models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            for model in models:
+                try:
+                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+                    res = await client.post(
+                        url,
+                        headers={"Content-Type": "application/json"},
+                        json={
+                            "contents": [{"parts": [{"text": prompt}]}],
+                            "generationConfig": {"temperature": 0.3}
+                        }
+                    )
+                    if res.status_code == 200:
+                        text = res.json()["candidates"][0]["content"]["parts"][0]["text"]
+                        cards = self._parse_json_cards(text, topic)
+                        if cards:
+                            return cards
+                except Exception as e:
+                    print(f"Gemini ({model}) flashcard error: {e}")
+                    continue
         return []
 
     def _parse_json_cards(self, text: str, default_tag: str) -> List[Dict[str, str]]:

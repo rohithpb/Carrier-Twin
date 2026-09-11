@@ -275,7 +275,7 @@ class ApiService {
     return [];
   }
 
-  /// Send message to AI Advisor chatbot powered by NVIDIA NIM Llama 3.3
+  /// Send message to AI Advisor chatbot powered by OpenAI / Gemini
   Future<String> sendAdvisorChat({
     required String message,
     String? studentId,

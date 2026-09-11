@@ -14,7 +14,7 @@ class AdvisorChatRequest(BaseModel):
 
 class AdvisorChatResponse(BaseModel):
     reply: str
-    model: str = "meta/llama-3.3-70b-instruct"
+    model: str = "nvidia/nemotron-3.5-lightning-30b-a3b"
     provider: str = "NVIDIA NIM"
     has_api_key: bool = False
     student_id: Optional[str] = None
@@ -23,7 +23,7 @@ class AdvisorChatResponse(BaseModel):
 @router.post("/api/chat", response_model=AdvisorChatResponse)
 async def chat_with_advisor(request: AdvisorChatRequest):
     """
-    NVIDIA NIM Llama 3.3 Chatbot endpoint.
+    OpenAI & Gemini Chatbot endpoint.
     Injects student Firestore Digital Twin profile data and returns contextual
     academic and career guidance.
     """
@@ -40,8 +40,8 @@ async def chat_with_advisor(request: AdvisorChatRequest):
 
     return AdvisorChatResponse(
         reply=result["reply"],
-        model=result.get("model", "meta/llama-3.3-70b-instruct"),
-        provider=result.get("provider", "NVIDIA NIM"),
+        model=result.get("model", "gpt-4o-mini"),
+        provider=result.get("provider", "OpenAI"),
         has_api_key=result.get("has_api_key", False),
         student_id=request.student_id or "student001",
     )

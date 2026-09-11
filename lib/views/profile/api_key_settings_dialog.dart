@@ -17,17 +17,19 @@ class ApiKeySettingsDialog extends StatefulWidget {
 }
 
 class _ApiKeySettingsDialogState extends State<ApiKeySettingsDialog> {
+  late TextEditingController _nvidiaController;
   late TextEditingController _geminiController;
   late TextEditingController _groqController;
   late TextEditingController _openAiController;
   late TextEditingController _openRouterController;
 
-  String _selectedProvider = 'Gemini';
+  String _selectedProvider = 'NVIDIA';
   final TextEditingController _newKeyController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _nvidiaController = TextEditingController(text: AiModelService.nvidiaApiKeys.join('\n'));
     _geminiController = TextEditingController(text: AiModelService.geminiApiKeys.join('\n'));
     _groqController = TextEditingController(text: AiModelService.groqApiKeys.join('\n'));
     _openAiController = TextEditingController(text: AiModelService.openAiApiKeys.join('\n'));
@@ -36,6 +38,7 @@ class _ApiKeySettingsDialogState extends State<ApiKeySettingsDialog> {
 
   @override
   void dispose() {
+    _nvidiaController.dispose();
     _geminiController.dispose();
     _groqController.dispose();
     _openAiController.dispose();
@@ -50,6 +53,7 @@ class _ApiKeySettingsDialogState extends State<ApiKeySettingsDialog> {
     setState(() {
       AiModelService.addKey(_selectedProvider, key);
       _newKeyController.clear();
+      _nvidiaController.text = AiModelService.nvidiaApiKeys.join('\n');
       _geminiController.text = AiModelService.geminiApiKeys.join('\n');
       _groqController.text = AiModelService.groqApiKeys.join('\n');
       _openAiController.text = AiModelService.openAiApiKeys.join('\n');
@@ -61,11 +65,13 @@ class _ApiKeySettingsDialogState extends State<ApiKeySettingsDialog> {
   }
 
   void _saveKeys() {
+    final nvidiaList = _nvidiaController.text.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
     final geminiList = _geminiController.text.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
     final groqList = _groqController.text.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
     final openAiList = _openAiController.text.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
     final openRouterList = _openRouterController.text.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
 
+    AiModelService.nvidiaApiKeys = nvidiaList;
     AiModelService.geminiApiKeys = geminiList;
     AiModelService.groqApiKeys = groqList;
     AiModelService.openAiApiKeys = openAiList;
@@ -94,8 +100,8 @@ class _ApiKeySettingsDialogState extends State<ApiKeySettingsDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     Icon(Icons.vpn_key, color: AppColors.primary),
                     SizedBox(width: 8),
                     Text(
@@ -133,7 +139,7 @@ class _ApiKeySettingsDialogState extends State<ApiKeySettingsDialog> {
                     children: [
                       DropdownButton<String>(
                         value: _selectedProvider,
-                        items: ['Gemini', 'Groq', 'OpenAI', 'OpenRouter'].map((p) {
+                        items: ['NVIDIA', 'Gemini', 'Groq', 'OpenAI', 'OpenRouter'].map((p) {
                           return DropdownMenuItem(value: p, child: Text(p, style: const TextStyle(fontSize: 12)));
                         }).toList(),
                         onChanged: (val) {
@@ -168,6 +174,8 @@ class _ApiKeySettingsDialogState extends State<ApiKeySettingsDialog> {
             const SizedBox(height: 16),
 
             // Provider Pools
+            _buildKeySection('NVIDIA NIM Keys (nvapi-... / Llama 3.3)', _nvidiaController, Icons.developer_board),
+            const SizedBox(height: 12),
             _buildKeySection('Google Gemini Keys (1 key per line)', _geminiController, Icons.auto_awesome),
             const SizedBox(height: 12),
             _buildKeySection('Groq Llama 3 Keys (Free 30 RPM)', _groqController, Icons.bolt),

@@ -28,7 +28,7 @@ class _AdvisorScreenState extends State<AdvisorScreen> {
         setState(() {
           _messages.add({
             'sender': 'ai',
-            'text': 'Hello ${profile.name}! I am your CareerTwin Academic & Career AI Advisor powered by NVIDIA NIM Llama 3.3. I have analyzed your ${profile.department} (Semester ${profile.currentSemesterNum}) digital twin profile & target role "${profile.careerPath}".\n\nAsk me any academic question, engineering concept, university syllabus topic, or exam preparation advice!'
+            'text': 'Hello ${profile.name}! I am your CareerTwin Academic & Career AI Advisor powered by NVIDIA NIM & Gemini. I have analyzed your ${profile.department} (Semester ${profile.currentSemesterNum}) digital twin profile & target role "${profile.careerPath}".\n\nAsk me any academic question, engineering concept, university syllabus topic, or exam preparation advice!'
           });
         });
       }
@@ -115,7 +115,7 @@ class _AdvisorScreenState extends State<AdvisorScreen> {
                 Icon(Icons.bolt_rounded, size: 14, color: AppColors.primary),
                 SizedBox(width: 4),
                 Text(
-                  'Llama 3.3 Active',
+                  'NVIDIA NIM & Gemini Active',
                   style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.primary),
                 ),
               ],
@@ -179,7 +179,7 @@ class _AdvisorScreenState extends State<AdvisorScreen> {
                     ),
                     SizedBox(width: 8),
                     Text(
-                      'CareerTwin AI is generating response via NVIDIA NIM...',
+                      'CareerTwin AI is generating response via OpenAI / Gemini...',
                       style: TextStyle(fontSize: 11, fontStyle: FontStyle.italic, color: AppColors.primary),
                     ),
                   ],

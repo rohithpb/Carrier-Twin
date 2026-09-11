@@ -4,18 +4,21 @@ import 'package:http/http.dart' as http;
 /// Multi-Model AI Service with Automatic Key Rotation & Multi-Tier Failover
 class AiModelService {
   // Configured Key Lists for each AI model provider
+  static List<String> nvidiaApiKeys = [];
   static List<String> geminiApiKeys = [];
   static List<String> groqApiKeys = [];
   static List<String> openAiApiKeys = [];
   static List<String> openRouterApiKeys = [];
 
   static bool get hasAnyKey =>
+      nvidiaApiKeys.isNotEmpty ||
       geminiApiKeys.isNotEmpty ||
       groqApiKeys.isNotEmpty ||
       openAiApiKeys.isNotEmpty ||
       openRouterApiKeys.isNotEmpty;
 
   static String get activeProviderName {
+    if (nvidiaApiKeys.isNotEmpty) return 'NVIDIA NIM';
     if (geminiApiKeys.isNotEmpty) return 'Gemini';
     if (groqApiKeys.isNotEmpty) return 'Groq';
     if (openAiApiKeys.isNotEmpty) return 'OpenAI';
@@ -24,6 +27,7 @@ class AiModelService {
   }
 
   static String get primaryApiKey {
+    if (nvidiaApiKeys.isNotEmpty) return nvidiaApiKeys.first;
     if (geminiApiKeys.isNotEmpty) return geminiApiKeys.first;
     if (groqApiKeys.isNotEmpty) return groqApiKeys.first;
     if (openAiApiKeys.isNotEmpty) return openAiApiKeys.first;
@@ -34,7 +38,8 @@ class AiModelService {
   /// Auto-detect the AI provider from key prefix
   static String detectProvider(String key) {
     final clean = key.trim();
-    if (clean.startsWith('AIzaSy')) return 'Gemini';
+    if (clean.startsWith('nvapi-')) return 'NVIDIA';
+    if (clean.startsWith('AQ.') || clean.startsWith('AIzaSy')) return 'Gemini';
     if (clean.startsWith('gsk_')) return 'Groq';
     if (clean.startsWith('sk-or-')) return 'OpenRouter';
     if (clean.startsWith('sk-')) return 'OpenAI';
@@ -52,6 +57,7 @@ class AiModelService {
 
   /// Clear all stored keys
   static void clearKeys() {
+    nvidiaApiKeys.clear();
     geminiApiKeys.clear();
     groqApiKeys.clear();
     openAiApiKeys.clear();
@@ -59,6 +65,13 @@ class AiModelService {
   }
 
   // Helper getters/setters for legacy single key calls
+  static String get nvidiaApiKey => nvidiaApiKeys.isNotEmpty ? nvidiaApiKeys.first : "";
+  static set nvidiaApiKey(String key) {
+    if (key.trim().isNotEmpty && !nvidiaApiKeys.contains(key.trim())) {
+      nvidiaApiKeys.insert(0, key.trim());
+    }
+  }
+
   static String get geminiApiKey => geminiApiKeys.isNotEmpty ? geminiApiKeys.first : "";
   static set geminiApiKey(String key) {
     if (key.trim().isNotEmpty && !geminiApiKeys.contains(key.trim())) {
@@ -92,6 +105,10 @@ class AiModelService {
     final cleanKey = key.trim();
     if (cleanKey.isEmpty) return;
     switch (provider.toLowerCase()) {
+      case 'nvidia':
+      case 'nvidianim':
+        if (!nvidiaApiKeys.contains(cleanKey)) nvidiaApiKeys.add(cleanKey);
+        break;
       case 'gemini':
         if (!geminiApiKeys.contains(cleanKey)) geminiApiKeys.add(cleanKey);
         break;
@@ -112,6 +129,9 @@ class AiModelService {
     final clean = apiKey.trim();
     if (clean.isEmpty) throw Exception('API key cannot be empty.');
     switch (provider.toLowerCase()) {
+      case 'nvidia':
+      case 'nvidianim':
+        return await _callNvidiaWithKey('Say "API Key is valid!" in 5 words.', clean);
       case 'gemini':
         return await _callGeminiWithKey('Say "API Key is valid!" in 5 words.', clean);
       case 'groq':
@@ -126,11 +146,24 @@ class AiModelService {
   }
 
   /// Generate AI response with key rotation failover:
-  /// Rotates through Gemini keys -> Groq keys -> OpenAI keys -> OpenRouter keys
+  /// Rotates through NVIDIA -> Gemini -> Groq -> OpenAI -> OpenRouter keys
   Future<String> generateResponse(String prompt) async {
     String? lastError;
 
-    // Tier 1: Gemini Keys Cascade
+    // Tier 1: NVIDIA NIM Cascade
+    for (int i = 0; i < nvidiaApiKeys.length; i++) {
+      final key = nvidiaApiKeys[i].trim();
+      if (key.isEmpty) continue;
+      try {
+        final reply = await _callNvidiaWithKey(prompt, key);
+        return reply;
+      } catch (e) {
+        lastError = 'NVIDIA error: $e';
+        print("NVIDIA Key #${i + 1} error: $e");
+      }
+    }
+
+    // Tier 2: Gemini Keys Cascade
     for (int i = 0; i < geminiApiKeys.length; i++) {
       final key = geminiApiKeys[i].trim();
       if (key.isEmpty) continue;
@@ -143,7 +176,7 @@ class AiModelService {
       }
     }
 
-    // Tier 2: Groq Keys Cascade
+    // Tier 3: Groq Keys Cascade
     for (int i = 0; i < groqApiKeys.length; i++) {
       final key = groqApiKeys[i].trim();
       if (key.isEmpty) continue;
@@ -156,7 +189,7 @@ class AiModelService {
       }
     }
 
-    // Tier 3: OpenAI Keys Cascade
+    // Tier 4: OpenAI Keys Cascade
     for (int i = 0; i < openAiApiKeys.length; i++) {
       final key = openAiApiKeys[i].trim();
       if (key.isEmpty) continue;
@@ -169,7 +202,7 @@ class AiModelService {
       }
     }
 
-    // Tier 4: OpenRouter Keys Cascade
+    // Tier 5: OpenRouter Keys Cascade
     for (int i = 0; i < openRouterApiKeys.length; i++) {
       final key = openRouterApiKeys[i].trim();
       if (key.isEmpty) continue;
@@ -191,9 +224,53 @@ class AiModelService {
     return _generateSmartOfflineFallback(prompt);
   }
 
+  /// 0. NVIDIA NIM REST API Call
+  Future<String> _callNvidiaWithKey(String prompt, String apiKey) async {
+    final models = [
+      'meta/llama-3.2-11b-vision-instruct',
+      'meta/llama-3.2-90b-vision-instruct',
+      'mistralai/mistral-large-2-instruct',
+    ];
+    final url = Uri.parse('https://integrate.api.nvidia.com/v1/chat/completions');
+    String? lastError;
+
+    for (final model in models) {
+      try {
+        final response = await http.post(
+          url,
+          headers: {
+            'Authorization': 'Bearer $apiKey',
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode({
+            'model': model,
+            'messages': [
+              {'role': 'system', 'content': 'You are CareerTwin AI Advisor.'},
+              {'role': 'user', 'content': prompt}
+            ],
+            'temperature': 0.3,
+            'max_tokens': 1500,
+          }),
+        ).timeout(const Duration(seconds: 20));
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          final text = data['choices']?[0]?['message']?['content'];
+          if (text != null && text.isNotEmpty) return text;
+        } else {
+          lastError = 'NVIDIA HTTP ${response.statusCode}: ${response.body}';
+        }
+      } catch (e) {
+        lastError = e.toString();
+        continue;
+      }
+    }
+    throw Exception(lastError ?? 'NVIDIA NIM call failed.');
+  }
+
   /// 1. Google Gemini Single Key API Call (Supports multiple model endpoints)
   Future<String> _callGeminiWithKey(String prompt, String apiKey) async {
-    final models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+    final models = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
     String? lastError;
 
     for (final model in models) {
